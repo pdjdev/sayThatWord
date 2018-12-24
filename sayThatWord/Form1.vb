@@ -28,6 +28,7 @@
     Private Sub FadeInEffect(sender As Object, e As EventArgs) Handles MyBase.Shown
         Refresh()
         FadeIn(Me, 1)
+        locateWord()
     End Sub
 
     Private Sub FadeOutEffect(sender As Object, e As EventArgs) Handles MyBase.Closing
@@ -55,8 +56,7 @@
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Opacity = 0
-        locateWord()
-        TBPanel.Height = TextBox1.Height + 2
+        TBPanel.Height = TextBox1.Height + dpicalc(Me, 2)
     End Sub
 
     Sub resetTest()
@@ -156,6 +156,9 @@
 
     Sub chkAnswer()
         If TextBox1.Text = nowAnswer Then
+            If CheckBox2.Checked Then
+                CallTTS(nowAnswer, "Microsoft Zira Desktop")
+            End If
             My.Computer.Audio.Play(My.Resources.ok, AudioPlayMode.Background)
             nextWord()
             TBPanel.BackColor = Color.MediumSeaGreen
