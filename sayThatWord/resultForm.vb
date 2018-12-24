@@ -4,7 +4,7 @@
     End Sub
 
     Private Sub resultForm_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        Form1.resetTest()
+        Form1.continueTest()
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click

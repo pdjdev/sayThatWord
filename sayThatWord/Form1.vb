@@ -13,6 +13,9 @@
     Dim loc As Point
 
     Dim testActive As Boolean = False
+    Dim TTSEngine As String = "Microsoft Zira Desktop"
+
+    Dim mode As String = "test"
 
 #Region "Aero 그림자 효과 (Vista이상)"
 
@@ -57,12 +60,12 @@
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Opacity = 0
         TBPanel.Height = TextBox1.Height + dpicalc(Me, 2)
+        modeDrawer()
     End Sub
 
-    Sub resetTest()
-        wrongIndex.Clear()
-        wordIndex = 0
-        TextBox1.Text = Nothing
+    '시험 다 치고 다시 칠때
+    Sub continueTest()
+        resetTest(False)
 
         If MsgBox("다른 단어장을 불러 오시겠습니까?", vbQuestion + vbYesNo) = vbYes Then
             locateWord()
@@ -70,6 +73,39 @@
             showWord()
         End If
 
+    End Sub
+
+    '시험 초기화
+    Sub resetTest(loadword As Boolean) '초기화 후 단어 부르기/안부르기
+
+        wordIndex = 0
+        wrongIndex.Clear()
+        TextBox1.Text = Nothing
+
+        If loadword Then
+            loadWordDB(readDB)
+            showWord()
+        End If
+
+    End Sub
+
+    Sub modeDrawer()
+        Select Case mode
+            Case "test"
+                PracModeBT.BackColor = Color.Transparent
+                PracModeBT.ForeColor = Color.Gray
+                PracModeBTB.BackColor = Color.Transparent
+                TestModeBT.BackColor = Color.White
+                TestModeBT.ForeColor = Color.Black
+                TestModeBTB.BackColor = Color.FromArgb(69, 69, 69)
+            Case "prac"
+                PracModeBT.BackColor = Color.White
+                PracModeBT.ForeColor = Color.Black
+                PracModeBTB.BackColor = Color.FromArgb(69, 69, 69)
+                TestModeBT.BackColor = Color.Transparent
+                TestModeBT.ForeColor = Color.Gray
+                TestModeBTB.BackColor = Color.Transparent
+        End Select
     End Sub
 
     Sub locateWord()
@@ -150,14 +186,20 @@
         nowWord = tmp1(0)
         nowAnswer = tmp1(1)
 
+        WordLabel.ForeColor = Color.Black
         WordLabel.Text = nowWord
+
+
+        If mode = "prac" Then
+            ShowHint()
+        End If
 
     End Sub
 
     Sub chkAnswer()
         If TextBox1.Text = nowAnswer Then
             If CheckBox2.Checked Then
-                CallTTS(nowAnswer, "Microsoft Zira Desktop")
+                CallTTS(nowAnswer, TTSEngine, False)
             End If
             My.Computer.Audio.Play(My.Resources.ok, AudioPlayMode.Background)
             nextWord()
@@ -210,10 +252,9 @@
         End If
 
         CheckBox1.Checked = Not CheckBox1.Checked
-        wordIndex = 0
 
-        loadWordDB(readDB)
-        showWord()
+        resetTest(True)
+
 donothing:
     End Sub
 
@@ -232,17 +273,22 @@ donothing:
     Sub ShowHint()
         Dim hintText As String = Nothing
 
-        For i = 0 To nowAnswer.Length
+        If mode = "prac" Then
+            If CheckBox2.Checked Then CallTTS(nowAnswer, TTSEngine, True)
+            hintText = nowAnswer
+        Else
+            For i = 0 To nowAnswer.Length
 
-            If i = 1 Then hintText = nowAnswer(0)
-            If i > 1 Then
-                If nowAnswer(i - 1) = " " Then
-                    hintText += " "
-                Else
-                    hintText += "?"
+                If i = 1 Then hintText = nowAnswer(0)
+                If i > 1 Then
+                    If nowAnswer(i - 1) = " " Then
+                        hintText += " "
+                    Else
+                        hintText += "?"
+                    End If
                 End If
-            End If
-        Next
+            Next
+        End If
 
         WordLabel.Text = hintText
         WordLabel.ForeColor = Color.DodgerBlue
@@ -295,5 +341,47 @@ donothing:
                 If (WordLabel.Font.Size - 1) > 0 Then WordLabel.Font = New Font(WordLabel.Font.FontFamily, WordLabel.Font.Size - 2)
             End If
         End If
+    End Sub
+
+    Private Sub TestModeBT_Click(sender As Object, e As EventArgs) Handles TestModeBT.Click
+        If Not mode = "test" Then
+
+            If wordIndex > 0 Then
+
+                If MsgBox("시험이 초기화됩니다. 변경하시겠습니까?", vbQuestion + vbYesNo) = vbNo Then
+
+                    GoTo donothing
+
+                End If
+
+            End If
+
+            mode = "test"
+            modeDrawer()
+            resetTest(True)
+
+        End If
+donothing:
+    End Sub
+
+    Private Sub PracModeBT_Click(sender As Object, e As EventArgs) Handles PracModeBT.Click
+        If Not mode = "prac" Then
+
+            If wordIndex > 0 Then
+
+                If MsgBox("시험이 초기화됩니다. 변경하시겠습니까?", vbQuestion + vbYesNo) = vbNo Then
+
+                    GoTo donothing
+
+                End If
+
+            End If
+
+            mode = "prac"
+            modeDrawer()
+            resetTest(True)
+
+        End If
+donothing:
     End Sub
 End Class
