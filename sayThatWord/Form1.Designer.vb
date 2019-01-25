@@ -37,22 +37,27 @@ Partial Class Form1
         Me.TBPanel = New System.Windows.Forms.Panel()
         Me.MainPanel = New System.Windows.Forms.Panel()
         Me.TopPanel = New System.Windows.Forms.Panel()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.ResetBT = New System.Windows.Forms.Button()
         Me.FormTitle = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.CloseButton = New System.Windows.Forms.Panel()
         Me.BottomPanel = New System.Windows.Forms.Panel()
+        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
         Me.PracModeBTB = New System.Windows.Forms.Panel()
         Me.PracModeBT = New System.Windows.Forms.Label()
         Me.TestModeBTB = New System.Windows.Forms.Panel()
         Me.TestModeBT = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.ResizePanel = New System.Windows.Forms.Panel()
+        Me.LinkLabel2 = New System.Windows.Forms.LinkLabel()
         Me.ControlPanel.SuspendLayout()
         Me.Panel5.SuspendLayout()
         Me.Panel4.SuspendLayout()
         Me.TBPanel.SuspendLayout()
         Me.MainPanel.SuspendLayout()
         Me.TopPanel.SuspendLayout()
+        Me.Panel2.SuspendLayout()
         Me.BottomPanel.SuspendLayout()
         Me.PracModeBTB.SuspendLayout()
         Me.TestModeBTB.SuspendLayout()
@@ -112,7 +117,7 @@ Partial Class Form1
         '
         Me.CheckBox1.AutoCheck = False
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(23, 29)
+        Me.CheckBox1.Location = New System.Drawing.Point(15, 29)
         Me.CheckBox1.Margin = New System.Windows.Forms.Padding(2)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(62, 19)
@@ -149,6 +154,7 @@ Partial Class Form1
         '
         'Panel5
         '
+        Me.Panel5.Controls.Add(Me.LinkLabel2)
         Me.Panel5.Controls.Add(Me.CheckBox2)
         Me.Panel5.Controls.Add(Me.CheckBox1)
         Me.Panel5.Controls.Add(Me.Button1)
@@ -161,7 +167,7 @@ Partial Class Form1
         'CheckBox2
         '
         Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(23, 9)
+        Me.CheckBox2.Location = New System.Drawing.Point(15, 9)
         Me.CheckBox2.Margin = New System.Windows.Forms.Padding(2)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(45, 19)
@@ -205,6 +211,7 @@ Partial Class Form1
         'TopPanel
         '
         Me.TopPanel.BackColor = System.Drawing.Color.White
+        Me.TopPanel.Controls.Add(Me.Panel2)
         Me.TopPanel.Controls.Add(Me.FormTitle)
         Me.TopPanel.Controls.Add(Me.Panel1)
         Me.TopPanel.Controls.Add(Me.CloseButton)
@@ -213,6 +220,28 @@ Partial Class Form1
         Me.TopPanel.Name = "TopPanel"
         Me.TopPanel.Size = New System.Drawing.Size(671, 30)
         Me.TopPanel.TabIndex = 10
+        '
+        'Panel2
+        '
+        Me.Panel2.Controls.Add(Me.ResetBT)
+        Me.Panel2.Dock = System.Windows.Forms.DockStyle.Left
+        Me.Panel2.Location = New System.Drawing.Point(30, 0)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Padding = New System.Windows.Forms.Padding(3)
+        Me.Panel2.Size = New System.Drawing.Size(90, 30)
+        Me.Panel2.TabIndex = 14
+        '
+        'ResetBT
+        '
+        Me.ResetBT.Dock = System.Windows.Forms.DockStyle.Left
+        Me.ResetBT.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ResetBT.Font = New System.Drawing.Font("맑은 고딕", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.ResetBT.Location = New System.Drawing.Point(3, 3)
+        Me.ResetBT.Name = "ResetBT"
+        Me.ResetBT.Size = New System.Drawing.Size(75, 24)
+        Me.ResetBT.TabIndex = 13
+        Me.ResetBT.Text = "초기화..."
+        Me.ResetBT.UseVisualStyleBackColor = True
         '
         'FormTitle
         '
@@ -249,6 +278,7 @@ Partial Class Form1
         Me.BottomPanel.BackColor = System.Drawing.Color.WhiteSmoke
         Me.BottomPanel.BackgroundImage = Global.sayThatWord.My.Resources.Resources.shadow
         Me.BottomPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.BottomPanel.Controls.Add(Me.LinkLabel1)
         Me.BottomPanel.Controls.Add(Me.PracModeBTB)
         Me.BottomPanel.Controls.Add(Me.TestModeBTB)
         Me.BottomPanel.Controls.Add(Me.Label3)
@@ -258,6 +288,21 @@ Partial Class Form1
         Me.BottomPanel.Name = "BottomPanel"
         Me.BottomPanel.Size = New System.Drawing.Size(671, 32)
         Me.BottomPanel.TabIndex = 9
+        '
+        'LinkLabel1
+        '
+        Me.LinkLabel1.BackColor = System.Drawing.Color.Transparent
+        Me.LinkLabel1.Dock = System.Windows.Forms.DockStyle.Right
+        Me.LinkLabel1.Font = New System.Drawing.Font("맑은 고딕", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.LinkLabel1.LinkColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.LinkLabel1.Location = New System.Drawing.Point(573, 0)
+        Me.LinkLabel1.Name = "LinkLabel1"
+        Me.LinkLabel1.Padding = New System.Windows.Forms.Padding(0, 0, 10, 0)
+        Me.LinkLabel1.Size = New System.Drawing.Size(66, 32)
+        Me.LinkLabel1.TabIndex = 16
+        Me.LinkLabel1.TabStop = True
+        Me.LinkLabel1.Text = "정보..."
+        Me.LinkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'PracModeBTB
         '
@@ -330,6 +375,20 @@ Partial Class Form1
         Me.ResizePanel.Size = New System.Drawing.Size(32, 32)
         Me.ResizePanel.TabIndex = 10
         '
+        'LinkLabel2
+        '
+        Me.LinkLabel2.AutoSize = True
+        Me.LinkLabel2.BackColor = System.Drawing.Color.Transparent
+        Me.LinkLabel2.Font = New System.Drawing.Font("맑은 고딕", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.LinkLabel2.LinkColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.LinkLabel2.Location = New System.Drawing.Point(57, 10)
+        Me.LinkLabel2.Name = "LinkLabel2"
+        Me.LinkLabel2.Size = New System.Drawing.Size(31, 15)
+        Me.LinkLabel2.TabIndex = 17
+        Me.LinkLabel2.TabStop = True
+        Me.LinkLabel2.Text = "설정"
+        Me.LinkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
         'Form1
         '
         Me.AcceptButton = Me.Button1
@@ -359,6 +418,7 @@ Partial Class Form1
         Me.TBPanel.PerformLayout()
         Me.MainPanel.ResumeLayout(False)
         Me.TopPanel.ResumeLayout(False)
+        Me.Panel2.ResumeLayout(False)
         Me.BottomPanel.ResumeLayout(False)
         Me.PracModeBTB.ResumeLayout(False)
         Me.TestModeBTB.ResumeLayout(False)
@@ -390,4 +450,8 @@ Partial Class Form1
     Friend WithEvents TestModeBTB As Panel
     Friend WithEvents TestModeBT As Label
     Friend WithEvents Label3 As Label
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents ResetBT As Button
+    Friend WithEvents LinkLabel1 As LinkLabel
+    Friend WithEvents LinkLabel2 As LinkLabel
 End Class

@@ -21,10 +21,14 @@ Module TTSModule
         End Try
     End Sub
 
-    Sub showVoices()
+    Function getVoices() As List(Of String)
+        Dim list As New List(Of String)
         Dim b As New System.Speech.Synthesis.SpeechSynthesizer
         For Each voice As System.Speech.Synthesis.InstalledVoice In b.GetInstalledVoices()
-            MsgBox(voice.VoiceInfo.Name)
+            'MsgBox(voice.VoiceInfo.Name)
+            If Not voice.VoiceInfo.Name = Nothing Then list.Add(voice.VoiceInfo.Name)
         Next
-    End Sub
+
+        Return list
+    End Function
 End Module

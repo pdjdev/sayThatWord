@@ -1,9 +1,14 @@
-﻿Public Class Form1
-    Dim readDB As String = Nothing
+﻿Imports System.IO
+Imports System.Text
+
+Public Class Form1
+    Public readDB As String = Nothing
+    Public readLoc As String = Nothing
+    Public readUTF As Boolean = False
     Dim wordDB As New List(Of String)
     Public wordIndex As Integer = 0
     Dim wordLoc As String = My.Application.Info.DirectoryPath + "\words.txt"
-    Dim wordDBName As String = Nothing
+    Public wordDBName As String = Nothing
 
     Public wrongIndex As New List(Of Integer)
     Dim nowWord As String = Nothing '현재의 단어(질문)
@@ -12,10 +17,14 @@
     Dim loaded As Boolean = False
     Dim loc As Point
 
-    Dim testActive As Boolean = False
-    Dim TTSEngine As String = "Microsoft Zira Desktop"
+    Public testActive As Boolean = False
+
+    Public range(1) As Integer
+    Public reverse As Boolean = False
 
     Dim mode As String = "test"
+    Public showChar As Boolean = True
+    Dim allowedChar() As String = {",", ".", "/", "&", "-", "_", "[", "]", "(", ")", "!", "~", "'", "<", ">", "{", "}", "\", "`", "*"}
 
 #Region "Aero 그림자 효과 (Vista이상)"
 
@@ -31,7 +40,8 @@
     Private Sub FadeInEffect(sender As Object, e As EventArgs) Handles MyBase.Shown
         Refresh()
         FadeIn(Me, 1)
-        locateWord()
+        Disabled()
+        'locateWord()
     End Sub
 
     Private Sub FadeOutEffect(sender As Object, e As EventArgs) Handles MyBase.Closing
@@ -58,6 +68,7 @@
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        range(0) = -1
         Opacity = 0
         TBPanel.Height = TextBox1.Height + dpicalc(Me, 2)
         modeDrawer()
@@ -66,13 +77,8 @@
     '시험 다 치고 다시 칠때
     Sub continueTest()
         resetTest(False)
-
-        If MsgBox("다른 단어장을 불러 오시겠습니까?", vbQuestion + vbYesNo) = vbYes Then
-            locateWord()
-        Else
-            showWord()
-        End If
-
+        ConfigForm.Dispose()
+        ConfigForm.ShowDialog(Me)
     End Sub
 
     '시험 초기화
@@ -110,52 +116,107 @@
 
     Sub locateWord()
 
+        Dim ignoreTask As Boolean = False
+
         Dim filedialog As New OpenFileDialog With {
             .Title = "단어장 텍스트 파일을 선택해 주세요",
-            .Filter = "텍스트 파일|*.txt",
+            .Filter = "텍스트,tsv 파일|*.txt;*.tsv",
             .InitialDirectory = My.Application.Info.DirectoryPath
         }
 
         If filedialog.ShowDialog = DialogResult.OK Then
 
+            readLoc = filedialog.FileName
 
-            If My.Computer.FileSystem.FileExists(filedialog.FileName) Then
+            If My.Computer.FileSystem.FileExists(readLoc) Then
 
-                readDB = My.Computer.FileSystem.ReadAllText(filedialog.FileName, System.Text.Encoding.GetEncoding(949))
-                wordDBName = filedialog.SafeFileName.Replace(".txt", Nothing)
+                '용량 1메가 넘을때
+                If My.Computer.FileSystem.GetFileInfo(readLoc).Length > 1000000 Then
+                    If MsgBox("읽으려는 파일의 용량이 큽니다. 계속하시겠습니까?", vbExclamation + vbYesNo) = vbNo Then
+                        ignoreTask = True
+                    End If
+                End If
+
+                wordDBName = filedialog.SafeFileName.Replace(My.Computer.FileSystem.GetFileInfo(readLoc).Extension, Nothing)
+
+            Else
+                MsgBox("선택한 파일이 존재하지 않습니다.", vbCritical)
+                ignoreTask = True
 
             End If
 
+        Else
+            ignoreTask = True
         End If
 
-        If Not (readDB = Nothing) Then
-            testActive = True
-            loadWordDB(readDB)
-            showWord()
-            TBPanel.Enabled = True
-            ControlPanel.Enabled = True
+        If Not ignoreTask Then
+            '도중안빠져나옴 -> Config 표시
+            ConfigForm.Dispose()
+            ConfigForm.ShowDialog(Me)
+
         Else
-            WordLabel.Text = "여기를 눌러 단어 파일 열기"
-            testActive = False
-            TBPanel.Enabled = False
-            ControlPanel.Enabled = False
+            Disabled()
         End If
 
     End Sub
 
+    Sub StartTest()
+
+        loadWordDB(readDB)
+    End Sub
+
+    Sub Disabled()
+        ResetBT.Visible = False
+        WordLabel.Text = "여기를 눌러 단어 파일 열기"
+        testActive = False
+        TBPanel.Enabled = False
+        ControlPanel.Enabled = False
+    End Sub
+
     Sub loadWordDB(db As String)
+        Dim errorLv As Boolean = False
+
         wordDB.Clear()
 
         For Each word As String In db.Split(vbCr)
             If Not word = Nothing And word.Contains(vbTab) Then wordDB.Add(word)
         Next
 
+        '범위 자르기
+        If Not range(0) = -1 Then
+
+            If wordDB.Count < range(1) Then
+                If MsgBox("범위를 실제 데이터를 벗어난 것 같습니다." + vbCr + "범위를 무시하시겠습니까?", vbCritical + vbYesNo) = vbYes Then
+                    range(0) = -1
+                Else
+                    errorLv = True
+                End If
+            Else
+                wordDB = wordDB.GetRange(range(0) - 1, range(1) - range(0) + 1)
+            End If
+
+        End If
+
         If wordDB.Count > 0 Then
             If CheckBox1.Checked Then
                 wordDB = Shuffle(wordDB)
             End If
         Else
+            errorLv = True
             MsgBox("word 데이터를 제대로 불러올 수 없었습니다", vbCritical)
+        End If
+
+        If errorLv Then
+            Disabled()
+            ConfigForm.Dispose()
+            ConfigForm.ShowDialog(Me)
+        Else
+            '여기가 사실 Enabled()임
+            ResetBT.Visible = True
+            testActive = True
+            showWord()
+            TBPanel.Enabled = True
+            ControlPanel.Enabled = True
         End If
 
     End Sub
@@ -183,8 +244,14 @@
             If tmp1(i)(tmp1(i).Length - 1) = """" Then tmp1(i) = tmp1(i).Substring(0, tmp1(i).Length - 1)
         Next
 
-        nowWord = tmp1(0)
-        nowAnswer = tmp1(1)
+        '반전
+        If Not reverse Then
+            nowWord = tmp1(0)
+            nowAnswer = tmp1(1)
+        Else
+            nowWord = tmp1(1)
+            nowAnswer = tmp1(0)
+        End If
 
         WordLabel.ForeColor = Color.Black
         WordLabel.Text = nowWord
@@ -199,7 +266,8 @@
     Sub chkAnswer()
         If TextBox1.Text = nowAnswer Then
             If CheckBox2.Checked Then
-                CallTTS(nowAnswer, TTSEngine, False)
+
+                CallTTS(nowAnswer, My.Settings.TTSEngine, False)
             End If
             My.Computer.Audio.Play(My.Resources.ok, AudioPlayMode.Background)
             nextWord()
@@ -217,7 +285,7 @@
             '시험 끝
             resultForm.Close()
 
-            MsgBox("시험 완료" + vbCr + "맞은 문제: " + (wordDB.Count - wrongIndex.Count).ToString + vbCr + "틀린 문제: " + wrongIndex.Count.ToString)
+            'MsgBox("시험 완료" + vbCr + "맞은 문제: " + (wordDB.Count - wrongIndex.Count).ToString + vbCr + "틀린 문제: " + wrongIndex.Count.ToString)
 
             resultForm.resultLabel.Text = "맞은 문제: " _
                 + (wordDB.Count - wrongIndex.Count).ToString _
@@ -274,7 +342,7 @@ donothing:
         Dim hintText As String = Nothing
 
         If mode = "prac" Then
-            If CheckBox2.Checked Then CallTTS(nowAnswer, TTSEngine, True)
+            If CheckBox2.Checked Then CallTTS(nowAnswer, My.Settings.TTSEngine, True)
             hintText = nowAnswer
         Else
             For i = 0 To nowAnswer.Length
@@ -284,7 +352,19 @@ donothing:
                     If nowAnswer(i - 1) = " " Then
                         hintText += " "
                     Else
-                        hintText += "?"
+                        Dim matched As Boolean = False
+
+                        If showChar Then
+                            For Each str As String In allowedChar
+                                If nowAnswer(i - 1) = str Then
+                                    hintText += str
+                                    matched = True
+                                    Exit For
+                                End If
+                            Next
+                        End If
+
+                        If Not matched Then hintText += "?"
                     End If
                 End If
             Next
@@ -383,5 +463,35 @@ donothing:
 
         End If
 donothing:
+    End Sub
+
+    Private Sub ResetBT_Click(sender As Object, e As EventArgs) Handles ResetBT.Click
+        If MsgBox("정말로 시험을 중단하고 초기화하시겠습니까?", vbQuestion + vbYesNo) = vbYes Then
+            Disabled()
+        End If
+    End Sub
+
+    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+        Dim infotxt As String = "sayThatWord (세이뎃워드) Beta 1.0v" + vbCr
+        infotxt += vbCr + "간단 영단어 퀴즈 프로그램"
+        infotxt += vbCr + "제작 PBJSoftware"
+        infotxt += vbCr + "이 프로그램에 관한 건의사항이나 문의사항이 있으시다면" _
+            + vbCr + "http://blog.pbj.kr 혹은 pdj5096@gmail.com으로 알려주세요." + vbCr
+        infotxt += vbCr + "sayThatWord는 탭으로 분리된 텍스트 양식의 단어장을 사용합니다. 엑셀과 같은 스프레드시트에서 저장 옵션을 '*.txt (탭으로 분리)' 혹은 '*.tsv (탭으로 구분된 값)' 으로 저장하신 후 불러오시면 이용이 가능합니다."
+
+        MsgBox(infotxt, vbInformation, "정보")
+    End Sub
+
+    Private Sub LinkLabel2_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
+        TTSOption.ShowDialog(Me)
+    End Sub
+
+    Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
+        If CheckBox2.Checked Then
+            If My.Settings.TTSEngine = Nothing Then
+                MsgBox("TTS 엔진을 설정해 주십시오", vbExclamation)
+                CheckBox2.Checked = False
+            End If
+        End If
     End Sub
 End Class

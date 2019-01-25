@@ -3,7 +3,9 @@
         Me.Close()
     End Sub
 
-    Private Sub resultForm_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+    Private Sub resultForm_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        Me.Hide()
+        Refresh()
         Form1.continueTest()
     End Sub
 
