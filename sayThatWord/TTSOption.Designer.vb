@@ -24,12 +24,12 @@ Partial Class TTSOption
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(TTSOption))
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
-        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.Label6 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -46,6 +46,41 @@ Partial Class TTSOption
         Me.Panel1.Padding = New System.Windows.Forms.Padding(20)
         Me.Panel1.Size = New System.Drawing.Size(408, 127)
         Me.Panel1.TabIndex = 8
+        '
+        'Label6
+        '
+        Me.Label6.Font = New System.Drawing.Font("맑은 고딕", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Label6.ForeColor = System.Drawing.Color.Gray
+        Me.Label6.Location = New System.Drawing.Point(23, 92)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Padding = New System.Windows.Forms.Padding(0, 5, 0, 0)
+        Me.Label6.Size = New System.Drawing.Size(362, 27)
+        Me.Label6.TabIndex = 18
+        Me.Label6.Text = "테스트시 답안을 적합하게 발음하는 TTS 엔진을 선택해 주세요."
+        Me.Label6.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        '
+        'Button2
+        '
+        Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(69, Byte), Integer), CType(CType(69, Byte), Integer), CType(CType(69, Byte), Integer))
+        Me.Button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button2.ForeColor = System.Drawing.Color.White
+        Me.Button2.Location = New System.Drawing.Point(315, 58)
+        Me.Button2.Margin = New System.Windows.Forms.Padding(2)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(70, 29)
+        Me.Button2.TabIndex = 10
+        Me.Button2.Text = "미리 듣기"
+        Me.Button2.UseVisualStyleBackColor = False
+        '
+        'ComboBox1
+        '
+        Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox1.Font = New System.Drawing.Font("맑은 고딕", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.ComboBox1.FormattingEnabled = True
+        Me.ComboBox1.Location = New System.Drawing.Point(23, 58)
+        Me.ComboBox1.Name = "ComboBox1"
+        Me.ComboBox1.Size = New System.Drawing.Size(287, 29)
+        Me.ComboBox1.TabIndex = 10
         '
         'Panel2
         '
@@ -75,43 +110,8 @@ Partial Class TTSOption
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(104, 39)
         Me.Button1.TabIndex = 9
-        Me.Button1.Text = "입력 (Enter)"
+        Me.Button1.Text = "적용하기"
         Me.Button1.UseVisualStyleBackColor = False
-        '
-        'ComboBox1
-        '
-        Me.ComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.ComboBox1.Font = New System.Drawing.Font("맑은 고딕", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(23, 58)
-        Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(287, 29)
-        Me.ComboBox1.TabIndex = 10
-        '
-        'Button2
-        '
-        Me.Button2.BackColor = System.Drawing.Color.FromArgb(CType(CType(69, Byte), Integer), CType(CType(69, Byte), Integer), CType(CType(69, Byte), Integer))
-        Me.Button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button2.ForeColor = System.Drawing.Color.White
-        Me.Button2.Location = New System.Drawing.Point(315, 58)
-        Me.Button2.Margin = New System.Windows.Forms.Padding(2)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(70, 29)
-        Me.Button2.TabIndex = 10
-        Me.Button2.Text = "미리 듣기"
-        Me.Button2.UseVisualStyleBackColor = False
-        '
-        'Label6
-        '
-        Me.Label6.Font = New System.Drawing.Font("맑은 고딕", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.Label6.ForeColor = System.Drawing.Color.Gray
-        Me.Label6.Location = New System.Drawing.Point(23, 92)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Padding = New System.Windows.Forms.Padding(0, 5, 0, 0)
-        Me.Label6.Size = New System.Drawing.Size(362, 27)
-        Me.Label6.TabIndex = 18
-        Me.Label6.Text = "테스트시 답안을 적합하게 발음하는 TTS 엔진을 선택해 주세요."
-        Me.Label6.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
         'TTSOption
         '

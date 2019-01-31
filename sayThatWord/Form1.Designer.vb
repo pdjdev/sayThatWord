@@ -32,6 +32,7 @@ Partial Class Form1
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ControlPanel = New System.Windows.Forms.Panel()
         Me.Panel5 = New System.Windows.Forms.Panel()
+        Me.LinkLabel2 = New System.Windows.Forms.LinkLabel()
         Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.TBPanel = New System.Windows.Forms.Panel()
@@ -50,7 +51,6 @@ Partial Class Form1
         Me.TestModeBT = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.ResizePanel = New System.Windows.Forms.Panel()
-        Me.LinkLabel2 = New System.Windows.Forms.LinkLabel()
         Me.ControlPanel.SuspendLayout()
         Me.Panel5.SuspendLayout()
         Me.Panel4.SuspendLayout()
@@ -163,6 +163,20 @@ Partial Class Form1
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(209, 58)
         Me.Panel5.TabIndex = 8
+        '
+        'LinkLabel2
+        '
+        Me.LinkLabel2.AutoSize = True
+        Me.LinkLabel2.BackColor = System.Drawing.Color.Transparent
+        Me.LinkLabel2.Font = New System.Drawing.Font("맑은 고딕", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.LinkLabel2.LinkColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.LinkLabel2.Location = New System.Drawing.Point(57, 10)
+        Me.LinkLabel2.Name = "LinkLabel2"
+        Me.LinkLabel2.Size = New System.Drawing.Size(31, 15)
+        Me.LinkLabel2.TabIndex = 17
+        Me.LinkLabel2.TabStop = True
+        Me.LinkLabel2.Text = "설정"
+        Me.LinkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'CheckBox2
         '
@@ -374,20 +388,6 @@ Partial Class Form1
         Me.ResizePanel.Name = "ResizePanel"
         Me.ResizePanel.Size = New System.Drawing.Size(32, 32)
         Me.ResizePanel.TabIndex = 10
-        '
-        'LinkLabel2
-        '
-        Me.LinkLabel2.AutoSize = True
-        Me.LinkLabel2.BackColor = System.Drawing.Color.Transparent
-        Me.LinkLabel2.Font = New System.Drawing.Font("맑은 고딕", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
-        Me.LinkLabel2.LinkColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.LinkLabel2.Location = New System.Drawing.Point(57, 10)
-        Me.LinkLabel2.Name = "LinkLabel2"
-        Me.LinkLabel2.Size = New System.Drawing.Size(31, 15)
-        Me.LinkLabel2.TabIndex = 17
-        Me.LinkLabel2.TabStop = True
-        Me.LinkLabel2.Text = "설정"
-        Me.LinkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Form1
         '

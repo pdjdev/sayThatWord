@@ -483,6 +483,7 @@ donothing:
     End Sub
 
     Private Sub LinkLabel2_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
+        TTSOption.Dispose()
         TTSOption.ShowDialog(Me)
     End Sub
 
